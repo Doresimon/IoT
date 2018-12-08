@@ -33,8 +33,10 @@ contract Trans is Ownable {
     // to add IoT device's address 
     // in the smart contract
     function registerIoT(address addr, string info)
+        payable
         public
         onlyOwner
+        returns(uint256)
     {
         require(!Roles.has(IoTDevice, addr), "IoT Device Already Exists");
 
@@ -47,6 +49,8 @@ contract Trans is Ownable {
             )
         );
         IoTInfo[addr] = info;
+
+        return msg.value;
     }
 
     // unregisterIoT
@@ -124,11 +128,28 @@ contract Trans is Ownable {
     }
 
     function buyData(address iot, uint256 uid)
+        payable
         public
-        returns(bool)
+        returns(uint256)
     {
         // transfer to safe box
 
+        return msg.value;
+
+        // address payable x = msg.sender
         
+        
+    }
+
+    function TranToken(address addr, uint256 val)
+        payable
+        public
+        onlyOwner
+        returns(bool)
+    {
+        // address payable a = addr;
+        bool r = addr.send(val);
+        // bool r = a.send(val);
+        return r;
     }
 }

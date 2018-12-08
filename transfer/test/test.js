@@ -1,34 +1,40 @@
 var Trans = artifacts.require("Trans");
 
+var ether = 1000000000000000000;
+
 contract('Trans', async (accounts) => {
+    let instance;
 
-    it("should be happy", async () => {
-        let instance = await Trans.deployed();
-        // let instance = await Trans.at('0xff45683fc44bc57e1a0fa9944eba9a15d3e1d6eb');
+    // console.log("[new instance]");
+    // let instance = await Trans.deployed();
+    // let instance = await Trans.at('0xff45683fc44bc57e1a0fa9944eba9a15d3e1d6eb');
 
-        console.log("[instance]");
+    it("deploy contract", async () => {
+        console.log("[new instance]");
+        instance = await Trans.deployed();
+    });
 
+    it("register 10 IoT", async () => {
         for (let i = 0; i < 10; i++) {
             console.log("[registerIoT]");
-            let response = await instance.registerIoT(accounts[i], `IoT ${i}`);
+            let x = await instance.registerIoT(accounts[i], `IoT ${i}`, {value:500*ether});
+            // console.log(x)
         }
 
-        
-        console.log("[readIoT]");
-        let readIoT = await instance.readIoT.call(1);
-        console.log(readIoT);
+        let x = await instance.TranToken(accounts[9], 1000*ether);
+        console.log("[xxxxxxxxxxxxxxxx]")
+        console.log(x)
 
-        // let newD = {
-        //     h: 123,
-        //     uid: 1,
-        //     timestamp: 2018,
-        //     datasize: 2048,
-        //     supposedPrice: 666,
-        //     dataType: "weather",
-        // }
-        
-        console.log("[newData]");
+    });
 
+    it("read 10 IoT infomation", async () => {
+        for (let i = 0; i < 10; i++) {
+            let readIoT = await instance.readIoT.call(1);
+            // console.log(readIoT);
+        }
+    });
+
+    it("insert newData", async () => {
         for (let i = 0; i < 10; i++) {
             let newData = await instance.newData(
                 123,
@@ -38,13 +44,48 @@ contract('Trans', async (accounts) => {
                 666,
                 "weather"
                 );
-            console.log(newData);            
+            // console.log(newData);            
         }
+    });
 
+    it("search Data", async () => {
         console.log("[searchData]");
         let searchData = await instance.searchData.call(accounts[0], 2019)
-        console.log(searchData)
+        // console.log(searchData)
+    });
+
+    // it("should be happy", async () => {
+    //     // let instance = await Trans.deployed();
+    //     // let instance = await Trans.at('0xff45683fc44bc57e1a0fa9944eba9a15d3e1d6eb');
+
+    //     for (let i = 0; i < 10; i++) {
+    //         console.log("[registerIoT]");
+    //         let response = await instance.registerIoT(accounts[i], `IoT ${i}`);
+    //     }
+
         
-     });
+    //     console.log("[readIoT]");
+    //     let readIoT = await instance.readIoT.call(1);
+    //     console.log(readIoT);
+    
+    //     console.log("[newData]");
+
+    //     for (let i = 0; i < 10; i++) {
+    //         let newData = await instance.newData(
+    //             123,
+    //             i,
+    //             2018,
+    //             2048,
+    //             666,
+    //             "weather"
+    //             );
+    //         console.log(newData);            
+    //     }
+
+    //     console.log("[searchData]");
+    //     let searchData = await instance.searchData.call(accounts[0], 2019)
+    //     console.log(searchData)
+        
+    //  });
    
 });
