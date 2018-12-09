@@ -21,9 +21,13 @@ contract('Trans', async (accounts) => {
             // console.log(x)
         }
 
+    });
+    it("transfer to IoT", async () => {
+       
         let x = await instance.TranToken(accounts[9], 1000*ether);
         console.log("[xxxxxxxxxxxxxxxx]")
         console.log(x)
+
 
     });
 
