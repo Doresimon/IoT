@@ -5,6 +5,7 @@ contract DataExchange {
 
   // mapping(address => mapping(address => uint256)) tx;
   mapping(address => uint) tx;
+  mapping(address => address[]) customer;
 
   constructor() public {
     owner = msg.sender;
@@ -21,16 +22,37 @@ contract DataExchange {
   {
     // tx[iot_address][msg.sender] = msg.value;
     tx[iot_address] = msg.value;
-    // this.transfer(msg.value);
+    customer[iot_address].push(msg.sender);
   }
-
+  
   function receive
     (address buyer_address, uint256 uid)
     public
+    view
+    returns(uint)
   {
     // uint amount = tx[msg.sender][buyer_address];
-    uint amount = tx[msg.sender];
-    msg.sender.transfer(amount);
+    // uint amount = tx[msg.sender];
+    // msg.sender.transfer(amount);
+    return tx[msg.sender];
+  }
+  
+  function getAddressBalance
+    (address iot_address)
+    public
+    view
+    returns(uint, uint)
+  {
+     return (tx[msg.sender], tx[iot_address]);
+  }
+  
+  function getAddressCustomer
+    (address iot_address)
+    public
+    view
+    returns(address[])
+  {
+    return customer[iot_address];
   }
 
   function getContractBalance
