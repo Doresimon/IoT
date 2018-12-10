@@ -29,15 +29,14 @@ contract DataExchange {
     (address buyer_address, uint256 uid)
     public
     view
-    returns(uint)
   {
     // uint amount = tx[msg.sender][buyer_address];
-    // uint amount = tx[msg.sender];
-    // msg.sender.transfer(amount);
-    return tx[msg.sender];
+    uint amount = tx[buyer_address];
+    buyer_address.transfer(amount);  // works in javascript VM
+    // return tx[msg.sender];
   }
   
-  function getAddressBalance
+  function getBalance
     (address iot_address)
     public
     view
@@ -46,7 +45,7 @@ contract DataExchange {
      return (tx[msg.sender], tx[iot_address]);
   }
   
-  function getAddressCustomer
+  function getCustomerList
     (address iot_address)
     public
     view
