@@ -44,7 +44,8 @@ contract Trans is Ownable {
         IoTList.push(
             IoT(
                 {
-                    a:addr, info:info
+                    a:addr,
+                    info:info
                 }
             )
         );
