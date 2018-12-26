@@ -11,6 +11,8 @@ contract DataExchange {
     mapping(address => uint256[]) public iot_data_hash;
     mapping(uint256 => IOT_DATA) public iot_data_map;
 
+    address[] public iot_list;
+
     enum State { Deposited, Accepted, Rejected }
 
     struct IOT_DATA {
@@ -67,9 +69,26 @@ contract DataExchange {
     function registerIoT(address iot)
         public
         onlyOwner ()
+        returns(bool)
     {
-        iot_registation[iot] = true;
+        bool ret;
+        if (iot_registation[iot]) {
+            ret = false;
+        } else {
+            iot_registation[iot] = true;
+            iot_list.push(iot);
+            ret = true;
+        }
         emit AddOneIoT();
+        return ret;
+    }
+
+    function getIoTList()
+        public
+        view
+        returns(address[])
+    {
+        return iot_list;
     }
 
     /* IoT */
